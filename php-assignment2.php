@@ -6,7 +6,7 @@ $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "sibailaj-db", "j1nl10en0wr49
 if ($mysqli->connect_errno) {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 } else {
-	//echo "Connection worked!<br>";
+
 }
 
 //Delete Button
@@ -15,22 +15,18 @@ if (isset($_POST['deleteButton'])) {
 	$statement->bind_param("s", $_POST['deleteButton']);
 	$statement->execute();
 	$statement->close();
-	//$mysqli->query("DELETE FROM video_inventory WHERE name = '$_POST[deleteButton]';");
+
 
 }
 
 //Check In/Out Button
 if (isset($_POST['checkinButton'])) {
 	$rented = 0;
-	//$statement = $mysqli->prepare("SELECT rented FROM video_inventory WHERE name = ?;");
-	//$statement->bind_param("s", $_POST['checkinButton']);
-	//$statement->execute();
-	//$statement->bind_result($rentedResult);
-	//echo "checkin button is called<br>";
+
 	$rentedQuery = $mysqli->query("SELECT rented FROM video_inventory WHERE name = '$_POST[checkinButton]';");
-	//var_dump($rentedQuery);
+
 	$buttonValue = mysqli_fetch_array($rentedQuery, MYSQLI_ASSOC);
-	//var_dump($buttonValue);
+
 
 	if ($buttonValue['rented'] == 1) {
 		$rented = 0;
@@ -50,8 +46,6 @@ if (isset($_POST['deleteAllButton'])) {
 	}
 }
 
-//var_dump(isset($_POST['name']) && isset($_POST['category']) && isset($_POST['length']));
-//var_dump($_POST);
 
 if (isset($_POST['name']) && isset($_POST['category']) && isset($_POST['length'])) {
 	if (!empty($_POST['name']) && !empty($_POST['category']) && !empty($_POST['length']) && (ctype_digit($_POST['length']) && is_numeric($_POST['length']) && $_POST['length'] > 0)) {
@@ -142,7 +136,7 @@ if(isset($_POST['select']) && $_POST['select'] != "allMovies") {
 		} else {
 			$rented = "Checked Out";
 		}
-		//$rented = $row['rented'];
+
 		echo "<tr><td><button type='submit' name='deleteButton' value='" . $name . "'>Delete</button><td>" . $name . 
 		"<td>" . $category . "<td>" . $length . "<td>" . $rented . "<td><button type='submit' name='checkinButton' value='" . 
 		$name . "'>Check In/Out</button>";
